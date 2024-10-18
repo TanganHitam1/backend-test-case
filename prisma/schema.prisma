@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql" // Ubah sesuai DB Anda (mysql, sqlite, etc.)
+  url      = env("DATABASE_URL")
+}
+
+model Member {
+  id        Int      @id @default(autoincrement())
+  code      String   @unique
+  name      String
+  isPenalized Boolean @default(false)
+  penalty    Int      @default(0)
+  borrowed   Borrowed[]
+}
+
+model Book {
+  id        Int      @id @default(autoincrement())
+  code      String   @unique
+  title     String
+  author    String
+  stock     Int
+  borrowed  Borrowed[]
+}
+
+model Borrowed {
+  id        Int      @id @default(autoincrement())
+  memberId  Int
+  bookId    Int
+  borrowDate  DateTime
+  returnDate   DateTime?
+  returned  Boolean @default(false)
+  
+  member    Member @relation(fields: [memberId], references: [id])
+  book      Book   @relation(fields: [bookId], references: [id])
+}

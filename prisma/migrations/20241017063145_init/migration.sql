@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `member` ADD COLUMN `penalty` INTEGER NOT NULL DEFAULT 0;
